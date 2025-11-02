@@ -15,18 +15,18 @@ function onHomepage(e) {
  */
 function createCard() {
   var builder = CardService.newCardBuilder();
-  builder.setHeader(CardService.newCardHeader().setTitle('Email to Markdown'));
+  builder.setHeader(CardService.newCardHeader().setTitle('Email to Google Sheet'));
 
   var section = CardService.newCardSection().setHeader('Settings');
   section.addWidget(CardService.newTextInput()
       .setFieldName('label')
       .setTitle('Gmail Label')
-      .setValue('email-to-md'));
+      .setValue('email-to-sheet'));
 
   var action = CardService.newAction()
-      .setFunctionName('createMarkdownFileFromEmails');
+      .setFunctionName('createGoogleSheetFromEmails');
   section.addWidget(CardService.newTextButton()
-      .setText('Create Markdown File')
+      .setText('Create Google Sheet')
       .setOnClickAction(action));
 
   builder.addSection(section);
@@ -34,14 +34,14 @@ function createCard() {
 }
 
 /**
- * The action handler for the "Create Markdown File" button.
- * Fetches emails with the specified label, converts them to Markdown,
- * and saves the result to a new file in Google Drive.
+ * The action handler for the "Create Google Sheet" button.
+ * Fetches emails with the specified label, extracts metadata and body,
+ * and saves the result to a new Google Sheet in Google Drive.
  *
  * @param {Object} e The event object from the button click.
  * @return {ActionResponse} A response to rebuild the card.
  */
-function createMarkdownFileFromEmails(e) {
+function createGoogleSheetFromEmails(e) {
   var labelName = e.formInput.label;
   if (!labelName) {
     return CardService.newActionResponseBuilder()
@@ -63,31 +63,36 @@ function createMarkdownFileFromEmails(e) {
         .build();
   }
 
-  var markdownContent = '';
+  var sheetData = [['Afzender', 'Datum', 'Tijd', 'Onderwerp', 'Bericht']];
   // Process threads in reverse order to get chronological order of emails
   for (var i = threads.length - 1; i >= 0; i--) {
     var messages = threads[i].getMessages();
     for (var j = 0; j < messages.length; j++) {
       var message = messages[j];
-      markdownContent += '# ' + message.getSubject() + '\n\n';
-      markdownContent += '**From:** ' + message.getFrom() + '\n';
-      markdownContent += '**Date:** ' + message.getDate() + '\n\n';
-      markdownContent += message.getPlainBody() + '\n\n';
-      markdownContent += '---\n\n';
+      var date = message.getDate();
+      sheetData.push([
+        message.getFrom(),
+        date.toLocaleDateString(),
+        date.toLocaleTimeString(),
+        message.getSubject(),
+        message.getPlainBody()
+      ]);
     }
   }
 
-  if (markdownContent === '') {
+  if (sheetData.length <= 1) {
     return CardService.newActionResponseBuilder()
         .setNotification(CardService.newNotification().setText("No content to save."))
         .build();
   }
 
-  var fileName = labelName + ' - ' + new Date().toISOString().slice(0, 10) + '.md';
-  var file = DriveApp.createFile(fileName, markdownContent, 'text/markdown');
+  var fileName = labelName + ' - ' + new Date().toISOString().slice(0, 10);
+  var spreadsheet = SpreadsheetApp.create(fileName);
+  var sheet = spreadsheet.getSheets()[0];
+  sheet.getRange(1, 1, sheetData.length, sheetData[0].length).setValues(sheetData);
 
   var openLink = CardService.newOpenLink()
-      .setUrl(file.getUrl())
+      .setUrl(spreadsheet.getUrl())
       .setOpenAs(CardService.OpenAs.FULL_SIZE)
       .setOnClose(CardService.OnClose.NOTHING);
 
