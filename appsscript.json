@@ -8,10 +8,11 @@
     "https://www.googleapis.com/auth/gmail.addons.execute",
     "https://www.googleapis.com/auth/gmail.readonly",
     "https://www.googleapis.com/auth/drive",
-    "https://www.googleapis.com/auth/script.container.ui"
+    "https://www.googleapis.com/auth/script.container.ui",
+    "https://www.googleapis.com/auth/spreadsheets"
   ],
   "gmail": {
-    "name": "Email to Markdown",
+    "name": "Email to Google Sheet",
     "logoUrl": "https://www.example.com/logo.png",
     "homepageTrigger": {
       "runFunction": "onHomepage"
