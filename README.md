@@ -28,11 +28,15 @@ As this is a custom script, you need to install it manually in your Google accou
 6.  **Confirmation:** After a few moments, a success card will appear.
 7.  **Open the File:** Click the "Open File" button to view your newly created Markdown file in Google Drive. The file will be named based on the label and the date (e.g., `email-to-md - 2023-10-27.md`).
 
+## Re-Authorization May Be Required
+
+Because the permissions for this add-on have been updated, you may need to re-authorize it. To do this, you might need to completely remove the add-on from your account and then reinstall it using the instructions above.
+
 ## Permissions Required
 
 This add-on requires the following permissions:
 
 *   **Read your Gmail:** To find and read the content of the emails with the specified label.
-*   **Create files in your Google Drive:** To save the final Markdown file.
+*   **Full access to your Google Drive:** The script requires broad Google Drive permission to create new files. While the permission is broad, the script's code **only** creates new files and does not read, modify, or delete any of your existing files.
 
 Your data is not sent anywhere else and is only used within your Google account for the functionality of this add-on.
