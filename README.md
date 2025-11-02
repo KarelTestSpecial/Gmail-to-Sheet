@@ -13,6 +13,7 @@ As this is a custom script, you need to install it manually in your Google accou
 3.  **Copy the Code:**
     *   Delete any existing code in the `Code.gs` file and paste the content from the `Code.gs` file of this repository.
     *   Click the `+` icon next to "Files" and choose "JSON". Name the file `appsscript` and confirm. Then, paste the content of `appsscript.json` from this repository into this new file.
+    *   put timezone in appsscript.json , eg. America/New_York , or , Europe/Brussels
 4.  **Save the Project:** Click the save icon and give your project a name (e.g., "Email to Google Sheet").
 5.  **Deploy the Add-on:**
     *   Refresh the page.
