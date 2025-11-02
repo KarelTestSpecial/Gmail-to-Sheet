@@ -86,18 +86,16 @@ function createMarkdownFileFromEmails(e) {
   var fileName = labelName + ' - ' + new Date().toISOString().slice(0, 10) + '.md';
   var file = DriveApp.createFile(fileName, markdownContent, 'text/markdown');
 
-  var openLinkAction = CardService.newAction().setOpenLink(
-      CardService.newOpenLink()
-          .setUrl(file.getUrl())
-          .setOpenAs(CardService.OpenAs.FULL_SIZE)
-          .setOnClose(CardService.OnClose.NOTHING)
-  );
+  var openLink = CardService.newOpenLink()
+      .setUrl(file.getUrl())
+      .setOpenAs(CardService.OpenAs.FULL_SIZE)
+      .setOnClose(CardService.OnClose.NOTHING);
 
   var notificationCard = CardService.newCardBuilder()
     .setHeader(CardService.newCardHeader().setTitle('Success!'))
     .addSection(CardService.newCardSection()
       .addWidget(CardService.newTextParagraph().setText("File '" + fileName + "' created."))
-      .addWidget(CardService.newTextButton().setText('Open File').setOnClickAction(openLinkAction))
+      .addWidget(CardService.newTextButton().setText('Open File').setOpenLink(openLink))
     )
     .build();
 
