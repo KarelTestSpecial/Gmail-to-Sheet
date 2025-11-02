@@ -11,6 +11,7 @@ As this is a custom script, you need to install it manually in your Google accou
 3.  **Copy the Code:**
     *   Delete any content in the `Code.gs` file and paste the content from the `Code.gs` file of this repository.
     *   Click on **File > New > Script file** and name it `appsscript`. Then, copy the content of `appsscript.json` from this repository and paste it into this new file. **Important:** After pasting, delete the `.gs` extension from the filename in the editor, so it's just `appsscript.json`.
+    *   put timezone in appsscript.json , eg. America/New_York , or , Europe/Brussels
 4.  **Save the Project:** Click the save icon and give your project a name (e.g., "Email to Markdown").
 5.  **Install the Add-on:**
     *   Refresh the page.
